@@ -53,6 +53,6 @@ Finally, the function returns a vector containing the variables **total_trips**,
 ```
 return (c(total_trips, actual_trips, percent_usable_trips))
 ```
- <br /><br /><br />
- ## Summary Commutes Procedure 
+<br /><br /><br />
+## Summary Commutes Procedure 
 
