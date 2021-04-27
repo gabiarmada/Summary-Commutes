@@ -20,6 +20,7 @@ df1 <- read.csv(file, skip = 3, header = F)
 colnames(df1) = headers 
 ```
 
+
 > Note: the .csv files containing paricipant GPS data begin recording data on row 4. The second row of the .csv file is blank, while the third row contains the units for each column variable. We do not want our function to read in these rows, so we skip them. 
 
 The following line of the function counts the number of unique Trips in the .csv file and assigns the output to the variable **total_trips**: 
@@ -38,10 +39,11 @@ The following lines are the meat of the function, as they "clean-up" the origina
 ```
 df2 <- df2 %>% group_by(Trip) %>% 
         mutate(trip_total_time = max(`Trip duration`))
-df2 <- df2[!(df2$trip_total_time < "00:05:00"),] 
-df2 <- df2[df2$Latitude != 0, ] 
-df2 <- df2[df2$Longitude !=0, ]
+  df2 <- df2[!(df2$trip_total_time < "00:05:00"),] 
+  df2 <- df2[df2$Latitude != 0, ] 
+  df2 <- df2[df2$Longitude !=0, ]
 ```
+
 <br /> 
 The next line of the function then count the number of unique trips remaining in the newly subsetted dataframe, and assigns the output to the variable **actual_trips**. The following line calculates the percent of usable trip data available in the original .csv file of the participant, and assigns the output to the variable **percent_usable_trips**: 
 ```
@@ -53,6 +55,7 @@ Finally, the function returns a vector containing the variables **total_trips**,
 ```
 return (c(total_trips, actual_trips, percent_usable_trips))
 ```
-<br /><br /><br />
-## Summary Commutes Procedure 
+<br /><br />
 
+## Summary Commutes Procedure 
+stuff 
