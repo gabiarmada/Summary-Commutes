@@ -73,7 +73,7 @@ In the following lines, we initialize the matrix **file_conents** with the lengt
 file_contents <- matrix(nrow = length(file_paths), ncol = 4)
 colnames(file_contents) <- c("participant","total_trips", "actual_trips", "percent_usable_trips")
 ```
-<br />  
+<br />   
 
 Th next lines of code contain a for loop that loops through all of the participant data file paths stored in the variable **file_paths**. First, the loop uses the substr() function to extract only the participant name from the file path, and assigns it to the first column of the **file_contents** matrix. The loop then passes the participant data file to the **GMU_commute** function and assigns the output to the 2nd, 3rd, and 4th columns of the **file_contents** matrix. Once the loop has finishing looping through all participant data files, we use the function **kable** from the *knitr* package to generate a simple table of the now filled **file_contents** matrix. 
 ```
