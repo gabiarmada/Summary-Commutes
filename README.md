@@ -32,9 +32,10 @@ total_trips <- n_distinct(df1$Trip)
 The next line of the function selects the following columns of interest from df1: *Date & Time*, *Latitude*, *Longitude*, *Trip*, *Trip duration*, *Trip distance*, and assigns the new data frame to the variable **df2**: 
 ```
 df2 <- df1 %>% 
-          select("Date & Time", "Latitude", "Longitude", "Trip", "Trip duration", "Trip distance")
+       select("Date & Time", "Latitude", "Longitude", "Trip", "Trip duration", "Trip distance")
 ```
 <br />
+
 The following lines are the meat of the function, as they "clean-up" the original dataframe. First the newly created dataframe, **df2**, is grouped by the variable *Trip*. A new column is created, *trip_total_trip*, which contains the total duration of each trip. The dataframe is then subsetted by removing rows that do not have total trip time greater than 5 minutes. Similarly, the dataframe is subsetted again by removing rows that contain *O* for the *Latitude* and *Longitude* variables: 
 ```
 df2 <- df2 %>% group_by(Trip) %>% 
@@ -43,14 +44,15 @@ df2 <- df2 %>% group_by(Trip) %>%
   df2 <- df2[df2$Latitude != 0, ] 
   df2 <- df2[df2$Longitude !=0, ]
 ```
-
 <br /> 
+
 The next line of the function then count the number of unique trips remaining in the newly subsetted dataframe, and assigns the output to the variable **actual_trips**. The following line calculates the percent of usable trip data available in the original .csv file of the participant, and assigns the output to the variable **percent_usable_trips**: 
 ```
 actual_trips <- n_distinct(df2$Trip) 
 percent_usable_trips <- (actual_trips/total_trips)*100
 ```
 <br /> 
+
 Finally, the function returns a vector containing the variables **total_trips**, **actual_trips**, and **percent_usable_trips**: 
 ```
 return (c(total_trips, actual_trips, percent_usable_trips))
@@ -58,4 +60,3 @@ return (c(total_trips, actual_trips, percent_usable_trips))
 <br /><br />
 
 ## Summary Commutes Procedure 
-stuff 
