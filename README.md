@@ -69,6 +69,8 @@ file_paths <- fs::dir_ls(here("GPS data"))
 ```
 <br />  
 In the following lines, we initialize the matrix **file_conents** with the length of the variable **file_paths** (i.e. the number of participant data files we have) and the width of 4 (i.e. 4 columns). Then, the colnames() function is used to set the respective column names for the **file_contents** matrix that we just created.  
+<br />  
+
 ```
 file_contents <- matrix(nrow = length(file_paths), ncol = 4)
 colnames(file_contents) <- c("participant","total_trips", "actual_trips", "percent_usable_trips")
