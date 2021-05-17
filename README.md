@@ -80,6 +80,13 @@ overall_summary<- ungroup(df2) %>%
 ```
 <br /> 
 
+Next, the function filters **df2** to only include rows with usable data:
+```
+# filter df2 (only usable rows)
+df2 <- filter(df2, missing == 1)
+```
+<br /> 
+
 Finally, the GMU_commute() function returns an output based on the string output defined by the user. The following if/else if statements show the control structure of the function's return values: 
 ```
 if (output == "trip summary"){
