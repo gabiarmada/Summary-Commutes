@@ -41,6 +41,9 @@ GMU_commute <- function(file, output){
                               mean = round(mean(missing), digits = 3)) %>%
                     mutate(total_trips = total_trips, actual_trips = actual_trips)
   
+  # filter df2 (only usable rows)
+  df2 <- filter(df2, missing == 1)
+  
   if (output == "trip summary"){
     return (trip_summaries)}
     else if (output == "overall summary"){
