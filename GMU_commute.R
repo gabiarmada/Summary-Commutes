@@ -1,9 +1,14 @@
-#' \code{GMU_commute} Function to read the GMU commute data 
+#' Return usable GPS commute data
 #' 
 #' @title GMU_commute
-#' @param file .csv filename containing the GMU commute data
-#' @param output string of the desired function output; accepted values are: "trip summary", "overall summary", or "df"
+#' @param file .csv filename containing commute data
+#' @param output string value of the desired function output; accepted values are: "trip summary", "overall summary", or "df"
+#' @return defined by the user by the output parameter. 
 #' @author Gabi Armada and Jenna Krall 
+#' @examples
+#' file <- here("GPS data/100100.csv") 
+#' GMU_commute(file, output = "df")
+#' GMU_commute(file, output = "trip summary")
 #' @export
 
 library(tidyverse)
