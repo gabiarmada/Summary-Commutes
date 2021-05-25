@@ -6,23 +6,23 @@ The goal of the Summary Commutes Procedure is to create a table that contains th
 
 
 # GMU_commute() function 
-The GMU_commute function reads in a .csv file that corresponds to the GPS data of each participant in the Air Quality study. These .csv files are quite large and are continuously recording GPS data. However, not all of the data collected are deemed "usable" for research. We define *usable data* as trips that are longer than 5 minutes and trips that are properly recording data. For example, a trip may be logged in the participant's .csv file, but longitude and latitude variables were not being recorded, therefore, the data from this trip does not qualify as "usable" data. By defining usable data, we are able to filter out any test runs recorded as trips, or the setting up of the pollution monitors recorded as trips.<br /><br />
+The GMU_commute function reads in a .csv file that corresponds to the GPS data of each participant in the Air Quality study. These .csv files are quite large and are continuously recording GPS data. However, not all of the data collected are deemed "usable" for research. We define **usable data** as trips that are longer than 5 minutes and trips that are properly recording data. For example, a trip may be logged in the participant's .csv file, but longitude and latitude variables were not being recorded, therefore, the data from this trip does not qualify as "usable" data. By defining usable data, we are able to filter out any test runs recorded as trips, or the setting up of the pollution monitors recorded as trips.<br /><br />
 
-**First, let's go over the parameters of the GMU_commute() function**
+**First, let's go over the parameters of the `GMU_commute()` function**
 .<br /><br />
 This function must accept 2 parameters:<br />
-*file: the name of the .csv file containing participant GPS data.
-*output: a string value of the desired output. 
+*`file`: the name of the .csv file containing participant GPS data.
+*`output`: a string value of the desired output. 
 
-> accepted values for *output*: *"trip summary"*, *"overall summary"*, or *"df"*. 
+> accepted values for *output*: "trip summary", "overall summary", or "df".  
 
-> Note: The *"trip summary"* ouput returns a list containing the total number of rows (GPS data), the number of usable rows, and the percent usable data for each trip. The *"overall summary"* output returns a list of the total number of rows, the number of usable rows, the percent usable data, the total number of trips, and the usable number of trips for each participant. Finally, the *"df"* output returns the subsetted dataframe, containing only usable GPS data. 
+> Note: The "trip summary" ouput returns the total number of rows (GPS data), the number of usable rows, and the percent usable data for each trip. The "overall summary" output returns the total number of rows, the number of usable rows, the percent usable data, the total number of trips, and the usable number of trips for each participant. Finally, the "df" output returns the subsetted dataframe, containing only usable GPS data.
 
 <br /><br />
 
-**Let's go through what the GMU_commute() function does...**
+**Let's go through what the `GMU_commute()` function does...**
 <br /><br />
-The first line of the function reads in the first row of the .csv file and assigns its output to the variable **headers**. The second line of the function then subsets the variable **headers** to only include columns 2:18 (faster to read only the columns of interest, as there are approximately 200 columns in total). The third line of the function uses **fread()** to read in the entire data frame, skipping the first 3 rows, selecting columns 2:18, and assigning the output to **df1**. Then, the headers extracted from the first row of the .csv file are assigned as the column names of **df1**:  
+The first line of the function reads in the first row of the .csv file and assigns its output to the variable `headers`. The second line of the function then subsets the variable `headers` to only include columns 2:18 (faster to read only the columns of interest, as there are approximately 200 columns in total). The third line of the function uses `fread()` to read in the entire data frame, skipping the first 3 rows, selecting columns 2:18, and assigning the output to `df1`. Then, the headers extracted from the first row of the .csv file are assigned as the column names of `df1`:  
 
 ```
 headers <- read.csv(file, header = F, nrows = 1, as.is = T)
@@ -33,24 +33,24 @@ colnames(df1) = headers
 
 > Note: the .csv files containing paricipant GPS data begin recording data on row 4. The second row of the .csv file is blank, while the third row contains the units for each column variable. We do not want our function to read in these rows, so we skip them. 
 
-The following line of the function counts the number of unique Trips in the .csv file and assigns the output to the variable **total_trips**: 
+The following line of the function counts the number of unique Trips in the .csv file and assigns the output to the variable `total_trips`: 
 ```
 total_trips <- n_distinct(df1$Trip)
 ```
 <br />
 
-The next line of the function selects the following columns of interest from df1: *Date & Time*, *Latitude*, *Longitude*, *Trip*, *Trip duration*, *Trip distance*, and assigns the new data frame to the variable **df2**: 
+The next line of the function selects the following columns of interest from df1: `Date & Time`, `Latitude`, `Longitude`, `Trip`, `Trip duration`, `Trip distance`, and assigns the new data frame to the variable `df2`: 
 ```
 df2 <- df1 %>% 
        select("Date & Time", "Latitude", "Longitude", "Trip", "Trip duration", "Trip distance")
 ```
 <br />
 
-The following lines are the meat of the function, as they "clean-up" the inputted dataframe. First, the newly created dataframe, **df2**, is grouped by the variable *Trip*. A new column is created, *trip_total_time*, which contains the total duration of each trip. The dataframe is then subsetted by removing rows that do not have a total trip time greater than 5 minutes. Next, we mutate a column *missing*, that contains a 1 or 0 for each row of the dataframe. 
+The following lines are the meat of the function, as they "clean-up" the inputted dataframe. First, the newly created dataframe, `df2`, is grouped by the variable `Trip`. A new column is created, `trip_total_time`, which contains the total duration of each trip. The dataframe is then subsetted by removing rows that do not have a total trip time greater than 5 minutes. Next, we mutate a column `missing`, that contains a 1 or 0 for each row of the dataframe. 
 
 > Note: a value of 1 represents that latitude/longitude values were properly recorded, and a value of 0 represents that latitude/longitude values were not properly recorded (i.e. are recorded as 0). 
 
-Similarly, the dataframe is subsetted again to only keep rows where the *missing* value is 1 (i.e. only keep rows where latitude/longitude were properly recorded). The variable **actual_trips** contains the number of usable trips after the dataframe has been subsetted to only include "usable data":
+Similarly, the dataframe is subsetted again to only keep rows where the `missing` value is 1 (i.e. only keep rows where latitude/longitude were properly recorded). The variable `actual_trips` contains the number of usable trips after the dataframe has been subsetted to only include "usable data":
 
 ```
 df2 <- df2 %>% 
@@ -66,7 +66,7 @@ actual_trips <- filter(df2, missing == 1) %>%
 ```
 <br /> 
 
-The following lines of the function generate summary data by trip (**trip_summaries**) and by participant (**overall_summary**). The trip summaries count the total number of rows, the number of usable rows, and the percent usable data **for each distinct trip**. The overall summary counts the total number of rows, the number of usable rows, the percent usable data, the total trips, and the usable trips **for each participant file**. 
+The following lines of the function generate summary data by trip (`trip_summaries`) and by participant (`overall_summary`). The trip summaries count the total number of rows, the number of usable rows, and the percent usable data **for each distinct trip**. The overall summary counts the total number of rows, the number of usable rows, the percent usable data, the total trips, and the usable trips **for each participant file**. 
 ```
 # trip summary (% missing)
 trip_summaries <- summarize(df2, nrows = n(), sum = sum(missing), mean = mean(missing))
@@ -80,7 +80,7 @@ overall_summary<- ungroup(df2) %>%
 ```
 <br /> 
 
-Next, the function filters **df2** to only include rows with usable data:
+Next, the function filters `df2` to only include rows with usable data:
 ```
 # filter df2 (only usable rows)
 df2 <- filter(df2, missing == 1)
@@ -100,15 +100,15 @@ if (output == "trip summary"){
 
 # Summary Commutes Procedure 
 **Implementation of the GMU_commute() function** <br /><br />
-The next step in the Summary Commutes Procedure is to pass all participant GPS data files through the **GMU_commute()** function. In order to do this in an efficient manner, we use a for loop to pass the participant data into the **file** parameter of the **GMU_commute()** function and display the outputs in a table. 
+The next step in the Summary Commutes Procedure is to pass all participant GPS data files through the `GMU_commute()` function. In order to do this in an efficient manner, we use a for loop to pass the participant data into the `file` parameter of the `GMU_commute()` function and display the outputs in a table. 
 <br />  
 
-The following line uses **dir_ls()** from the *fs* package to store all participant GPS data file paths, and assign them to the variable **file_paths** 
+The following line uses `dir_ls()` from the `fs` package to store all participant GPS data file paths, and assign them to the variable `file_paths`: 
 ```
 file_paths <- fs::dir_ls(here("GPS data"))
 ```
 <br />  
-In the following lines, we initialize the matrix **usable_trips** with the number of rows as the length of the variable **file_paths** (i.e. the number of participant data files we have) and the number of columns as 6. Then, **colnames()** is used to set the respective column names for the **usable_trips** matrix that we just created.  
+In the following lines, we initialize the matrix `usable_trips` with the number of rows as the length of the variable `file_paths` (i.e. the number of participant data files we have) and the number of columns as 6. Then, `colnames()` is used to set the respective column names for the `usable_trips` matrix that we just created.  
 <br />  
 
 ```
@@ -117,11 +117,11 @@ colnames(usable_trips) <- c("participant", "nrows", "usable_rows", "percent_usab
 ```
 <br />   
 
-Th next lines of code contain a for loop that loops through all of the participant data file paths stored in the variable **file_paths**. First, the loop uses the **substr()** function to extract only the participant name from the file path, and assigns it to the first column of the **usable_trips** matrix. The loop then passes the participant data file to the **GMU_commute()** function and assigns the output to the variable **list_output**. 
+Th next lines of code contain a for loop that loops through all of the participant data file paths stored in the variable `file_paths`. First, the loop uses the `substr()` function to extract only the participant name from the file path, and assigns it to the first column of the `usable_trips` matrix. The loop then passes the participant data file to the `GMU_commute()` function and assigns the output to the variable `list_output`. 
 
-> Note: we are specifying the "overall summary" output from the **GMU_commute()** function. 
+> Note: we are specifying the "overall summary" output from the `GMU_commute()` function. 
 
-Next, **list_output** is unlisted using **unlist()**, and assigned to the 2nd, 2rd, 4th, 5th, and 6th columns of the **usable_trips** matrix. Once the loop has finished looping through all participant GPS data files, we use the function **kable** from the *knitr* package to generate a simple table of the now filled **usable_trips** matrix. 
+Next, `list_output` is unlisted using `unlist()`, and assigned to the 2nd, 2rd, 4th, 5th, and 6th columns of the `usable_trips` matrix. Once the loop has finished looping through all participant GPS data files, we use the function `kable` from the `knitr` package to generate a simple table of the now filled `usable_trips` matrix. 
 ```
 for (i in seq_along(file_paths)){
       usable_trips[i, 1] <- substr(file_paths[i], start =51, stop = 56)
@@ -130,9 +130,9 @@ for (i in seq_along(file_paths)){
 }
 knitr::kable(usable_trips, "simple")
 ```
-> Take a look at the knitted Rmarkdown file to see the nicely formatted table generated by *knitr::kable*.
+> Take a look at the knitted Rmarkdown file to see the nicely formatted table generated by `knitr::kable`.
 
-Using the following lines of code, we save the matrix **usable_trips** as a dataframe to local disk:
+Using the following lines of code, we save the matrix `usable_trips` as a dataframe to local disk:
 ```
 usable_trips <- data.frame(usable_trips)
 save(usable_trips, file = "usable_trips.Rdata")
