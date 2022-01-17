@@ -1,13 +1,13 @@
 # Summary-Commutes
 
-### Introduction
+## Introduction
 This repository contains the Summary Commutes function and procedure used to return usable GPS data collected by participants.<br /><br />
 The goal of the Summary Commutes Procedure is to create a data table containing the participants of the Air Quality study, the number of trips taken by each participant, and the percent usable data collected from these trips. This will help determine if trips have full, partial, minimal, or no GPS data available and how many trips for each participant have GPS data available.
 
 
-### Installation 
+## Installation 
 
-### How to use
+## How to use
 The GMU_commute function reads a .csv file containing the GPS data of each participant in the Air Quality study. These .csv files are quite large and are continuously recording GPS data. However, not all of the data collected are deemed "usable" for research. <br /><br />
 We define **usable data** as trips that are longer than 5 minutes and trips that are properly recording data. For example, a trip may be logged in the participant's .csv file, but longitude and latitude variables were not being recorded, therefore, the data from this trip does not qualify as "usable" data. By defining usable data, we are able to filter out any test runs recorded as trips, or the setting up of the pollution monitors recorded as trips.<br /><br />
 
@@ -19,9 +19,7 @@ We define **usable data** as trips that are longer than 5 minutes and trips that
 
 > Note: The "trip summary" ouput returns the total number of rows (GPS data), the number of usable rows, and the percent usable data for each trip. The "overall summary" output returns the total number of rows, the number of usable rows, the percent usable data, the total number of trips, and the usable number of trips for each participant. Finally, the "df" output returns the subsetted dataframe, containing only usable GPS data.
 
-<br /><br />
-
-#### GMU_commute()
+### GMU_commute()
 The first line of the function reads in the first row of the .csv file and assigns its output to the variable `headers`. The second line of the function then subsets the variable `headers` to only include columns 2:18 (faster to read only the columns of interest, as there are approximately 200 columns in total). The third line of the function uses `fread()` to read in the entire data frame, skipping the first 3 rows, selecting columns 2:18, and assigning the output to `df1`. Then, `headers` are assigned as the column names of `df1`:  
 
 ```
@@ -97,7 +95,7 @@ if (output == "trip summary"){
     return (df2)}
 ```
 
-### Implementation
+## Implementation
 The next step in the Summary Commutes Procedure is to pass all participant GPS data files through the `GMU_commute()` function. In order to do this in an efficient manner, we use a for loop to pass the participant data into the `file` parameter of the `GMU_commute()` function and display the outputs in a table. 
 <br />  
 
