@@ -12,8 +12,8 @@ The GMU_commute function reads a .csv file containing the GPS data of each parti
 We define **usable data** as trips that are longer than 5 minutes and trips that are properly recording data. For example, a trip may be logged in the participant's .csv file, but longitude and latitude variables were not being recorded, therefore, the data from this trip does not qualify as "usable" data. By defining usable data, we are able to filter out any test runs recorded as trips, or the setting up of the pollution monitors recorded as trips.<br /><br />
 
 `GMU_commute` must accept 2 parameters:<br />
-*`file`: the name of the .csv file containing participant GPS data.<br />
-*`output`: a string value of the desired output. 
+`file`: the name of the .csv file containing participant GPS data.<br />
+`output`: a string value of the desired output. 
 
 > Accepted values for *output*: "trip summary", "overall summary", or "df".  
 
@@ -95,7 +95,6 @@ if (output == "trip summary"){
   else if(output == "df"){
     return (df2)}
 ```
-<br /><br />
 
 ### Implementation - Summary Commutes Procedure 
 The next step in the Summary Commutes Procedure is to pass all participant GPS data files through the `GMU_commute()` function. In order to do this in an efficient manner, we use a for loop to pass the participant data into the `file` parameter of the `GMU_commute()` function and display the outputs in a table. 
