@@ -1,20 +1,21 @@
 # Summary-Commutes
 
 ### Introduction
-This repository contains the Summary Commutes function and procedure used to return usable GPS data collected by participants.
+This repository contains the Summary Commutes function and procedure used to return usable GPS data collected by participants.<br /><br />
 The goal of the Summary Commutes Procedure is to create a data table containing the participants of the Air Quality study, the number of trips taken by each participant, and the percent usable data collected from these trips. This will help determine if trips have full, partial, minimal, or no GPS data available and how many trips for each participant have GPS data available.
 
 
 ### Installation 
 
-### How to use - GMU_commute()
-The GMU_commute function reads a .csv file containing the GPS data of each participant in the Air Quality study. These .csv files are quite large and are continuously recording GPS data. However, not all of the data collected are deemed "usable" for research. We define **usable data** as trips that are longer than 5 minutes and trips that are properly recording data. For example, a trip may be logged in the participant's .csv file, but longitude and latitude variables were not being recorded, therefore, the data from this trip does not qualify as "usable" data. By defining usable data, we are able to filter out any test runs recorded as trips, or the setting up of the pollution monitors recorded as trips.<br /><br />
+### How to use
+The GMU_commute function reads a .csv file containing the GPS data of each participant in the Air Quality study. These .csv files are quite large and are continuously recording GPS data. However, not all of the data collected are deemed "usable" for research. <br /><br />
+We define **usable data** as trips that are longer than 5 minutes and trips that are properly recording data. For example, a trip may be logged in the participant's .csv file, but longitude and latitude variables were not being recorded, therefore, the data from this trip does not qualify as "usable" data. By defining usable data, we are able to filter out any test runs recorded as trips, or the setting up of the pollution monitors recorded as trips.<br /><br />
 
-This function must accept 2 parameters:<br />
-*`file`: the name of the .csv file containing participant GPS data.
+`GMU_commute` must accept 2 parameters:<br />
+*`file`: the name of the .csv file containing participant GPS data.<br />
 *`output`: a string value of the desired output. 
 
-> accepted values for *output*: "trip summary", "overall summary", or "df".  
+> Accepted values for *output*: "trip summary", "overall summary", or "df".  
 
 > Note: The "trip summary" ouput returns the total number of rows (GPS data), the number of usable rows, and the percent usable data for each trip. The "overall summary" output returns the total number of rows, the number of usable rows, the percent usable data, the total number of trips, and the usable number of trips for each participant. Finally, the "df" output returns the subsetted dataframe, containing only usable GPS data.
 
@@ -128,7 +129,7 @@ for (i in seq_along(file_paths)){
 knitr::kable(usable_trips, "simple")
 ```
 
-Using the following lines of code, we save the matrix `usable_trips` as a dataframe to local disk:
+Use the following lines to save the matrix `usable_trips` as a dataframe to local disk:
 ```
 usable_trips <- data.frame(usable_trips)
 save(usable_trips, file = "usable_trips.Rdata")
