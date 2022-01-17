@@ -1,15 +1,15 @@
 # Summary-Commutes
-This repository contains the Summary Commutes function and procedure used to return the percent usable trip data collected by participants. <br /><br />
+
+### Introduction
+This repository contains the Summary Commutes function and procedure used to return usable GPS data collected by participants.
+The goal of the Summary Commutes Procedure is to create a data table containing the participants of the Air Quality study, the number of trips taken by each participant, and the percent usable data collected from these trips. This will help determine if trips have full, partial, minimal, or no GPS data available and how many trips for each participant have GPS data available.
 
 
-The goal of the Summary Commutes Procedure is to create a table that contains the participants of the Air Quality study, the number of trips taken by each participant, and the percent usable data collected from these trips. This will help determine if trips have full, partial, minimal, or no GPS data available and how many trips for each participant have GPS data available. <br /><br />
+### Installation 
 
+### How to use - GMU_commute()
+The GMU_commute function reads a .csv file containing the GPS data of each participant in the Air Quality study. These .csv files are quite large and are continuously recording GPS data. However, not all of the data collected are deemed "usable" for research. We define **usable data** as trips that are longer than 5 minutes and trips that are properly recording data. For example, a trip may be logged in the participant's .csv file, but longitude and latitude variables were not being recorded, therefore, the data from this trip does not qualify as "usable" data. By defining usable data, we are able to filter out any test runs recorded as trips, or the setting up of the pollution monitors recorded as trips.<br /><br />
 
-# GMU_commute() function 
-The GMU_commute function reads in a .csv file that corresponds to the GPS data of each participant in the Air Quality study. These .csv files are quite large and are continuously recording GPS data. However, not all of the data collected are deemed "usable" for research. We define **usable data** as trips that are longer than 5 minutes and trips that are properly recording data. For example, a trip may be logged in the participant's .csv file, but longitude and latitude variables were not being recorded, therefore, the data from this trip does not qualify as "usable" data. By defining usable data, we are able to filter out any test runs recorded as trips, or the setting up of the pollution monitors recorded as trips.<br /><br />
-
-**First, let's go over the parameters of the `GMU_commute()` function**
-.<br /><br />
 This function must accept 2 parameters:<br />
 *`file`: the name of the .csv file containing participant GPS data.
 *`output`: a string value of the desired output. 
@@ -20,9 +20,7 @@ This function must accept 2 parameters:<br />
 
 <br /><br />
 
-**Let's go through what the `GMU_commute()` function does...**
-<br /><br />
-The first line of the function reads in the first row of the .csv file and assigns its output to the variable `headers`. The second line of the function then subsets the variable `headers` to only include columns 2:18 (faster to read only the columns of interest, as there are approximately 200 columns in total). The third line of the function uses `fread()` to read in the entire data frame, skipping the first 3 rows, selecting columns 2:18, and assigning the output to `df1`. Then, the headers extracted from the first row of the .csv file are assigned as the column names of `df1`:  
+The first line of the function reads in the first row of the .csv file and assigns its output to the variable `headers`. The second line of the function then subsets the variable `headers` to only include columns 2:18 (faster to read only the columns of interest, as there are approximately 200 columns in total). The third line of the function uses `fread()` to read in the entire data frame, skipping the first 3 rows, selecting columns 2:18, and assigning the output to `df1`. Then, `headers` are assigned as the column names of `df1`:  
 
 ```
 headers <- read.csv(file, header = F, nrows = 1, as.is = T)
@@ -98,8 +96,7 @@ if (output == "trip summary"){
 ```
 <br /><br />
 
-# Summary Commutes Procedure 
-**Implementation of the GMU_commute() function** <br /><br />
+### Implementation - Summary Commutes Procedure 
 The next step in the Summary Commutes Procedure is to pass all participant GPS data files through the `GMU_commute()` function. In order to do this in an efficient manner, we use a for loop to pass the participant data into the `file` parameter of the `GMU_commute()` function and display the outputs in a table. 
 <br />  
 
@@ -130,7 +127,6 @@ for (i in seq_along(file_paths)){
 }
 knitr::kable(usable_trips, "simple")
 ```
-> Take a look at the knitted Rmarkdown file to see the nicely formatted table generated by `knitr::kable`.
 
 Using the following lines of code, we save the matrix `usable_trips` as a dataframe to local disk:
 ```
