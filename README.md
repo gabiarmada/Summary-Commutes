@@ -11,9 +11,9 @@ The goal of the Summary Commutes Procedure is to create a data table containing 
 The GMU_commute function reads a .csv file containing the GPS data of each participant in the Air Quality study. These .csv files are quite large and are continuously recording GPS data. However, not all of the data collected are deemed "usable" for research. <br /><br />
 We define **usable data** as trips that are longer than 5 minutes and trips that are properly recording data. For example, a trip may be logged in the participant's .csv file, but longitude and latitude variables were not being recorded, therefore, the data from this trip does not qualify as "usable" data. By defining usable data, we are able to filter out any test runs recorded as trips, or the setting up of the pollution monitors recorded as trips.<br /><br />
 
-`GMU_commute` must accept 2 parameters:<br />
-`file`: the name of the .csv file containing participant GPS data.<br />
-`output`: a string value of the desired output. 
+This function must accept 2 parameters:
+*`file`: the name of the .csv file containing participant GPS data.
+*`output`: a string value of the desired output. 
 
 > Accepted values for *output*: "trip summary", "overall summary", or "df".  
 
