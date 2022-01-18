@@ -12,8 +12,8 @@ The GMU_commute function reads a .csv file containing the GPS data of each parti
 We define **usable data** as trips that are longer than 5 minutes and trips that are properly recording data. For example, a trip may be logged in the participant's .csv file, but longitude and latitude variables were not being recorded, therefore, the data from this trip does not qualify as "usable" data. By defining usable data, we are able to filter out any test runs recorded as trips, or the setting up of the pollution monitors recorded as trips.<br /><br />
 
 This function must accept 2 parameters:
-* file: the name of the .csv file containing participant GPS data.
-* output: a string value of the desired output. 
+* `file`: the name of the .csv file containing participant GPS data.
+* `output`: a string value of the desired output. 
 
 <br/> <br/> 
 
