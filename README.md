@@ -15,8 +15,6 @@ This function must accept 2 parameters:
 * `file`: the name of the .csv file containing participant GPS data.
 * `output`: a string value of the desired output. 
 
-<br/> <br/> 
-
 > Accepted values for *output*: "trip summary", "overall summary", or "df".  
 
 > Note: The "trip summary" ouput returns the total number of rows (GPS data), the number of usable rows, and the percent usable data for each trip. The "overall summary" output returns the total number of rows, the number of usable rows, the percent usable data, the total number of trips, and the usable number of trips for each participant. Finally, the "df" output returns the subsetted dataframe, containing only usable GPS data.
